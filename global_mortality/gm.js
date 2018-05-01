@@ -1,4 +1,7 @@
-d3.csv("data/usa_drugs.csv", function(data) {
+
+d3.csv("data/usa_drugs.csv").then(function(data) {
+
+    console.log(data);
 
     const margin = ({top: 10, right: 0, bottom: 20, left: 30});
     const h = 500;
