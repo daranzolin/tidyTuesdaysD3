@@ -1,11 +1,11 @@
-
 d3.csv("data/usa_drugs.csv").then(function(data) {
 
-    console.log(data);
+    //console.log(data);
+    data[10].year= "2000";
 
-    const margin = ({top: 10, right: 10, bottom: 40, left: 40});
+    const margin = ({top: 10, right: 10, bottom: 40, left: 20});
     const h = 500;
-    const w = 500;
+    const w = 850;
 
     const svg = d3.select("body")
     .append("svg")
@@ -24,7 +24,7 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
 
     let xAxis = d3.axisBottom()
         .scale(x)
-        .ticks(10);
+        .ticks(20);
 
     let yAxis = d3.axisLeft()
         .scale(y)
@@ -46,7 +46,7 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
     svg.append("path")
         .datum(data)
         .attr("class", "line")
-        .attr("d", line);
+        .attr("d", line)
     
     svg.selectAll("circle")
         .data(data)
@@ -61,10 +61,12 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .attr("fill", "red");
 
     svg.append("g")
+        .attr("class", "axis")
         .attr("transform", `translate(0,${h - margin.bottom})`)
         .call(xAxis);
 
     svg.append("g")
+        .attr("class", "axis")
         .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis);
     
@@ -79,5 +81,6 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .attr("y", `${h - 10}`)
         .attr("class", "axisLabel")
         .text("Year");
+
 
 });

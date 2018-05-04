@@ -1,11 +1,16 @@
 .line {
   fill: none;
   stroke: teal;
-  stroke-width: 0.7;
+  stroke-width: 0.9;
 }
 
 .axisLabel {
     text-anchor: middle;
     font-size: 10px;
     font-family: 'Courier New', Courier, monospace
+}
+
+.axis text {
+    font-family: 'Courier New', Courier, monospace
+    font-size: 10px;
 }
