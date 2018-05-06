@@ -3,9 +3,13 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
     //console.log(data);
     data[10].year= "2000";
 
-    const margin = ({top: 10, right: 10, bottom: 40, left: 20});
+    const margin = {top: 10, right: 30, bottom: 40, left: 40};
     const h = 500;
-    const w = 850;
+    const w = 950;
+
+    function make_y_gridlines() {		
+        return d3.axisLeft(y)
+    }
 
     const svg = d3.select("body")
     .append("svg")
@@ -33,32 +37,47 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
     let line = d3.line()
         .x(function(d) { return x(parseTime(d.year)); })
         .y(function(d) { return y(d.percent); });
-
-    svg.append("rect")
-        .attr("width", `${w - (margin.left + margin.right)}`)
+    
+    svg.append("clipPath")               
+        .attr("id", "chart-area")        
+        .append("rect")                     
+        .attr("width", `${w - margin.left}`)
         .attr("height", `${h - (margin.top + margin.bottom)}`)
-        .attr("fill", d3.rgb("#edeff2"))
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-    svg.append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    
+    svg.append("g")			
+        .attr("class", "grid")
+        .attr("transform", `translate(${margin.left}, 0)`)
+        .call(make_y_gridlines()
+            .tickSize(-(w - margin.left))
+            .tickFormat("")
+        )
 
     svg.append("path")
         .datum(data)
         .attr("class", "line")
         .attr("d", line)
-    
-    svg.selectAll("circle")
+
+    svg.append("g")                                        
+        .attr("clip-path", "url(#chart-area)")
+        .selectAll("circle")
         .data(data)
         .enter().append("circle")
         .attr("cx", d => x(parseTime(d.year)))
         .attr("cy", d => y(d.percent))
         .attr("r", 0)
         .transition()
-        .delay((d, i) => i * 100)
+        .delay((d, i) => i * 150)
         .duration(1200)
-        .attr("r", 4)
-        .attr("fill", "red");
+        .on("start", function() {
+            d3.select(this)
+            .attr("r", 4)
+            .attr("fill", "pink");
+        })
+        .on("end", function() {
+            d3.select(this)
+                .attr("stroke", "black");
+        });
 
     svg.append("g")
         .attr("class", "axis")
@@ -71,16 +90,14 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .call(yAxis);
     
     svg.append("text")
-        .attr("x", "20")
-        .attr("y", `${margin.top - 2}`)
+        .attr("x", "67")
+        .attr("y", `${margin.top + 14}`)
         .attr("class", "axisLabel")
         .text("Percent");
 
     svg.append("text")
-        .attr("x", `${w - margin.left}`)
+        .attr("x", `${w/2}`)
         .attr("y", `${h - 10}`)
         .attr("class", "axisLabel")
         .text("Year");
-
-
 });
