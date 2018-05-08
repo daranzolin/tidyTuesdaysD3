@@ -18,8 +18,12 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
 
     let parseTime = d3.timeParse("%Y");
 
+    let tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .html(function(d) {return d.percent}); 
+
     let y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.percent)])
+        .domain([0, 1.5])
         .range([h - margin.bottom, margin.top]);
 
     let x = d3.scaleTime()
@@ -58,6 +62,8 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .attr("class", "line")
         .attr("d", line)
 
+    svg.call(tip);
+
     svg.append("g")                                        
         .attr("clip-path", "url(#chart-area)")
         .selectAll("circle")
@@ -66,18 +72,14 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .attr("cx", d => x(parseTime(d.year)))
         .attr("cy", d => y(d.percent))
         .attr("r", 0)
+        .attr("stroke", "black")
+        .attr("fill", "pink")
         .transition()
         .delay((d, i) => i * 150)
         .duration(1200)
-        .on("start", function() {
-            d3.select(this)
-            .attr("r", 4)
-            .attr("fill", "pink");
-        })
-        .on("end", function() {
-            d3.select(this)
-                .attr("stroke", "black");
-        });
+        .attr("r", 4)
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
 
     svg.append("g")
         .attr("class", "axis")
@@ -100,4 +102,5 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .attr("y", `${h - 10}`)
         .attr("class", "axisLabel")
         .text("Year");
+    
 });
