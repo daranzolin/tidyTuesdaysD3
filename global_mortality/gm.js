@@ -19,8 +19,9 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
     let parseTime = d3.timeParse("%Y");
 
     let tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .html(function(d) {return d.percent}); 
+        .attr("class", "d3-tip")
+        .html(function(d) {return `<span> Year: ${d.year} </span> <br> <span> Percent: ${d.percent} </span>`})
+        .offset([-15, -25]); 
 
     let y = d3.scaleLinear()
         .domain([0, 1.5])
@@ -69,17 +70,18 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .selectAll("circle")
         .data(data)
         .enter().append("circle")
+        .attr("class", "circle")
         .attr("cx", d => x(parseTime(d.year)))
         .attr("cy", d => y(d.percent))
         .attr("r", 0)
         .attr("stroke", "black")
         .attr("fill", "pink")
+        .on("mouseover", tip.show)
+        .on("mouseout", tip.hide)
         .transition()
-        .delay((d, i) => i * 150)
-        .duration(1200)
-        .attr("r", 4)
-        .on('mouseover', tip.show)
-        .on('mouseout', tip.hide);
+        .delay((d, i) => i * 110)
+        .duration(800)
+        .attr("r", 5);
 
     svg.append("g")
         .attr("class", "axis")
