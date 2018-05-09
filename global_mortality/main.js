@@ -8,8 +8,8 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
     const w = 950;
 
     function make_y_gridlines() {		
-        return d3.axisLeft(y)
-    }
+        return d3.axisLeft(y);
+    };
 
     const svg = d3.select("body")
     .append("svg")
@@ -56,7 +56,7 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .call(make_y_gridlines()
             .tickSize(-(w - margin.left))
             .tickFormat("")
-        )
+        );
 
     svg.append("path")
         .datum(data)
