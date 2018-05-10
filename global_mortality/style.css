@@ -7,7 +7,7 @@
 .axisLabel {
     text-anchor: middle;
     font-size: 11px;
-    font-family: 'Courier New', Courier, monospace
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .axis text {

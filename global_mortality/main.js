@@ -24,11 +24,11 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
         .offset([-15, -25]); 
 
     let y = d3.scaleLinear()
-        .domain([0, 1.5])
+        .domain(d3.extent(data, d => +d.percent)).nice()
         .range([h - margin.bottom, margin.top]);
 
     let x = d3.scaleTime()
-        .domain(d3.extent(data, d => parseTime(d.year)))
+        .domain(d3.extent(data, d => parseTime(d.year))).nice()
         .range([margin.left, w]);
 
     let xAxis = d3.axisBottom()
@@ -91,18 +91,21 @@ d3.csv("data/usa_drugs.csv").then(function(data) {
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", `translate(${margin.left},0)`)
-        .call(yAxis);
+        .call(yAxis)
+        .call(g => g.append("text")
+        .attr("fill", "#000")
+        .attr("x", 5)
+        .attr("y", margin.top)
+        .attr("dy", "0.32em")
+        .attr("text-anchor", "start")
+        .attr("font-weight", "bold")
+        .text("Percent"));
     
     svg.append("text")
-        .attr("x", "67")
-        .attr("y", `${margin.top + 14}`)
-        .attr("class", "axisLabel")
-        .text("Percent");
-
-    svg.append("text")
         .attr("x", `${w/2}`)
-        .attr("y", `${h - 10}`)
+        .attr("y", `${h - 5}`)
         .attr("class", "axisLabel")
+        .attr("font-weight", "bold")
         .text("Year");
     
 });
