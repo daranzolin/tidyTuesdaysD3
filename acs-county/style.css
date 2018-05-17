@@ -1,0 +1,39 @@
+.line {
+  fill: none;
+  stroke: teal;
+  stroke-width: 0.9;
+}
+
+.axisLabel {
+    text-anchor: middle;
+    font-size: 11px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.axis text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+}
+
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+  }
+  
+  .grid path {
+    stroke-width: 0;
+  }
+
+  .d3-tip {
+    line-height: 1;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
+  .circle:hover {
+    fill: #003366
+  }
